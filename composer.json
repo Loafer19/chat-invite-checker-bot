@@ -9,6 +9,7 @@
     ],
     "minimum-stability": "dev",
     "require": {
-        "vlucas/phpdotenv": "^5.5@dev"
+        "vlucas/phpdotenv": "^5.5@dev",
+        "irazasyed/telegram-bot-sdk": "3.x-dev"
     }
 }
