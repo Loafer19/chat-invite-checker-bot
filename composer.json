@@ -1,0 +1,12 @@
+{
+    "name": "loafer/chat-invite-checker-bot",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Ruslan Popelyshyn",
+            "email": "platonpopelishin@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
