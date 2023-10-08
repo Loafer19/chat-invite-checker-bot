@@ -1,49 +1,43 @@
 <?php
 
-// @todo: move to bootstrap
-require_once __DIR__ . '/vendor/autoload.php';
+namespace App;
 
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+require_once __DIR__ . '/app/bootstrap.php';
 
-$dotenv->load();
+use App\Models\InviteLink;
 
-$dotenv->required('BOT_TOKEN')->allowedRegexValues('/^(\d+):([a-zA-Z0-9\-_]+)$/');
-$dotenv->required('BOT_WEBHOOK')->allowedRegexValues('/^https?:\/\/.+\..+$/');
-// end @todo
+$bot_token = $_GET['bot_token'] ?? null;
+$chat_id = $_GET['create_invite_link_for_chat'] ?? null;
+$external_id = $_GET['external_id'] ?? null;
 
-// @todo: move config & handler
-use Telegram\Bot\BotsManager;
-
-$config = [
-    'bots' => [
-        'main' => [
-            'token' => $_ENV['BOT_TOKEN'],
-            'webhook_url' => $_ENV['BOT_WEBHOOK'],
-        ],
-    ],
-    'default' => 'main',
-];
-
-$telegram = new BotsManager($config);
-
-$response = $telegram->getMe();
-
-echo $response;
-
-// don't work when webhook is set
-// $response = $telegram->getUpdates();
-// echo '[' . implode(',', $response) . ']';
-
-// $telegram
-//     ->setAsyncRequest(true)
-//     ->setWebhook([
-//         'url' => $_ENV['BOT_WEBHOOK'] . '/app.php?bot_token=' . $_ENV['BOT_TOKEN'],
-//     ]);
-
-// $telegram->removeWebhook();
-
-if (isset($_GET['bot_token']) && $_GET['bot_token'] === $_ENV['BOT_TOKEN']) {
+if ($bot_token) {
     $response = $telegram->getWebhookUpdate();
 
-    file_put_contents('log.txt', print_r($response->getChat()->id, true) . PHP_EOL, FILE_APPEND);
+    if ($response->objectType() === 'chat_join_request') {
+        $url = $response->getInviteLink();
+
+        $lnvite_link = InviteLink::where('url', $url)->first();
+
+        if ($lnvite_link) {
+            $lnvite_link->joinRequest();
+        }
+    }
+
+    file_put_contents('log.txt', print_r($response, TRUE), FILE_APPEND);
+}
+
+if ($chat_id) {
+    $response = $telegram->createChatInviteLink([
+        'chat_id' => $chat_id,
+        'expire_date' => time() + 60 * 60 * 24 * 7, // 7 days
+        'creates_join_request' => true,
+    ]);
+
+    $lnvite_link = InviteLink::create([
+        'external_id' => $external_id,
+        'chat_id' => $chat_id,
+        'url' => $response->getInviteLink(),
+    ]);
+
+    echo json_encode($lnvite_link->toArray());
 }
