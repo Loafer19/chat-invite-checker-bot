@@ -1,14 +1,13 @@
 <?php
 
-namespace App;
+namespace App\Public;
 
-require_once __DIR__ . '/app/bootstrap.php';
+require_once __DIR__ . '/../app/bootstrap.php';
 
 use App\Models\InviteLink;
 
 $bot_token = $_GET['bot_token'] ?? null;
-$chat_id = $_GET['create_invite_link_for_chat'] ?? null;
-$external_id = $_GET['external_id'] ?? null;
+$click_id = $_GET['click_id'] ?? null;
 
 if ($bot_token) {
     $response = $telegram->getWebhookUpdate();
@@ -20,13 +19,17 @@ if ($bot_token) {
 
         if ($lnvite_link) {
             $lnvite_link->joinRequest();
+
+            $lnvite_link->sendUpdate();
         }
     }
 
-    file_put_contents('log.txt', print_r($response, TRUE), FILE_APPEND);
+    file_put_contents(__DIR__ . '/../log.txt', print_r($response, TRUE), FILE_APPEND);
 }
 
-if ($chat_id) {
+if ($click_id) {
+    $chat_id = $_ENV['CHAT_ID'];
+
     $response = $telegram->createChatInviteLink([
         'chat_id' => $chat_id,
         'expire_date' => time() + 60 * 60 * 24 * 7, // 7 days
@@ -34,10 +37,10 @@ if ($chat_id) {
     ]);
 
     $lnvite_link = InviteLink::create([
-        'external_id' => $external_id,
+        'click_id' => $click_id,
         'chat_id' => $chat_id,
         'url' => $response->getInviteLink(),
     ]);
 
-    echo json_encode($lnvite_link->toArray());
+    echo $lnvite_link->json();
 }

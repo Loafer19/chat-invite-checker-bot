@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Telegram;
+namespace App\App;
 
 use Telegram\Bot\BotsManager;
 
@@ -15,17 +15,3 @@ $config = [
 ];
 
 $telegram = new BotsManager($config);
-
-function telegramSetWebhook()
-{
-    global $telegram;
-
-    $telegram
-        ->setAsyncRequest(true)
-        ->setWebhook([
-            'url' => $_ENV['BOT_WEBHOOK'] . '/app.php?bot_token=' . $_ENV['BOT_TOKEN'],
-            'allowed_updates' => [
-                'chat_join_request',
-            ],
-        ]);
-};

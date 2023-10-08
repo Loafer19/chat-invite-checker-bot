@@ -8,7 +8,7 @@ $db = new DB;
 
 $db->addConnection([
     'driver' => 'mysql',
-    'host' => $_ENV['DB_HOST'] ?? 'localhost',
+    'host' => $_ENV['DB_HOST'] ?? '127.0.0.1',
     'port' => $_ENV['DB_PORT'] ?? 3306,
     'database' => $_ENV['DB_NAME'] ?? 'db',
     'username' => $_ENV['DB_USER'] ?? 'root',

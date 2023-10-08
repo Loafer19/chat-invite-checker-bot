@@ -1,3 +1,4 @@
+commands/test.php
 /vendor
 .env
 log.txt
