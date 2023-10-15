@@ -1,6 +1,6 @@
 <?php
 
-namespace App\App;
+namespace App\Public;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -16,5 +16,10 @@ $dotenv->required('CHAT_ID')->notEmpty();
 
 $dotenv->required('SERVER_WEBHOOK')->allowedRegexValues('/^https?:\/\/.+\..+$/');
 
-require_once __DIR__ . '/telegram.php';
-require_once __DIR__ . '/../database/connection.php';
+require_once __DIR__ . '/../telegram/config.php';
+require_once __DIR__ . '/../database/config.php';
+
+function log_to_file(mixed $message)
+{
+    file_put_contents(__DIR__ . '/../log.txt', print_r($message, TRUE), FILE_APPEND);
+}

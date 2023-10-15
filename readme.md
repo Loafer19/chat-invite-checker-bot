@@ -7,11 +7,20 @@ Then, run the following commands to set up a:
 - database
 
 ```bash
-php commands/telegram.php
+php database/migrate.php
 ```
 
 - telegram webhook:
 
 ```bash
-php commands/telegram.php
+php telegram/webhook.php
 ```
+
+## start
+
+Run for development:
+```bash
+php -S localhost:8000
+```
+
+Open in browser:

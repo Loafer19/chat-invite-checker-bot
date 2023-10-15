@@ -1,6 +1,6 @@
 <?php
 
-namespace App\App;
+namespace App\Telegram;
 
 use Telegram\Bot\BotsManager;
 

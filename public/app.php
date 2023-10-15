@@ -2,7 +2,7 @@
 
 namespace App\Public;
 
-require_once __DIR__ . '/../app/bootstrap.php';
+require_once __DIR__ . '/bootstrap.php';
 
 use App\Models\InviteLink;
 
@@ -24,7 +24,7 @@ if ($bot_token) {
         }
     }
 
-    file_put_contents(__DIR__ . '/../log.txt', print_r($response, TRUE), FILE_APPEND);
+    log_to_file($response);
 }
 
 if ($click_id) {

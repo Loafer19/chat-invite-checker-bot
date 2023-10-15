@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Commands;
+namespace App\Telegram;
 
-require_once __DIR__ . '/../app/bootstrap.php';
+require_once __DIR__ . '/../public/bootstrap.php';
 
 $telegram
     ->setWebhook([

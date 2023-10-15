@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+use function App\Public\log_to_file;
+
 class InviteLink extends Model
 {
     protected $guarded = [];
@@ -51,7 +53,7 @@ class InviteLink extends Model
         curl_exec($ch);
         curl_close($ch);
 
-        file_put_contents(__DIR__ . '/../log.txt', PHP_EOL . print_r($this->json(), TRUE), FILE_APPEND);
+        log_to_file($this->json());
     }
 
     public function json(): string

@@ -1,4 +1,4 @@
-commands/test.php
+telegram/test.php
 /vendor
 .env
 log.txt

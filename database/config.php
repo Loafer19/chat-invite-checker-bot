@@ -2,9 +2,9 @@
 
 namespace App\Database;
 
-use Illuminate\Database\Capsule\Manager as DB;
+use Illuminate\Database\Capsule\Manager;
 
-$db = new DB;
+$db = new Manager;
 
 $db->addConnection([
     'driver' => 'mysql',
