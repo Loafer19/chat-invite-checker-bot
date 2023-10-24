@@ -16,6 +16,7 @@
     "require": {
         "vlucas/phpdotenv": "^5.5@dev",
         "irazasyed/telegram-bot-sdk": "3.x-dev",
-        "illuminate/database": "10.x-dev"
+        "illuminate/database": "10.x-dev",
+        "guzzlehttp/guzzle": "7.9.x-dev"
     }
 }

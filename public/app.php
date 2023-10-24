@@ -13,14 +13,17 @@ if ($bot_token) {
     $response = $telegram->getWebhookUpdate();
 
     if ($response->objectType() === 'chat_join_request') {
-        $url = $response->getInviteLink();
 
-        $lnvite_link = InviteLink::where('url', $url)->first();
+        if (isset($response['chat_join_request']['invite_link']['invite_link'])) {
+            $url = $response['chat_join_request']['invite_link']['invite_link'];
 
-        if ($lnvite_link) {
-            $lnvite_link->joinRequest();
+            $lnvite_link = InviteLink::where('url', $url)->first();
 
-            $lnvite_link->sendUpdate();
+            if ($lnvite_link) {
+                $lnvite_link->joinRequest();
+
+                $lnvite_link->sendUpdate();
+            }
         }
     }
 

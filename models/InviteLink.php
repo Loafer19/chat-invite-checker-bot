@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use GuzzleHttp\Client;
 use Illuminate\Database\Eloquent\Model;
 
 use function App\Public\log_to_file;
@@ -39,19 +40,12 @@ class InviteLink extends Model
 
     public function sendUpdate(): void
     {
-        $ch = curl_init($_ENV['SERVER_WEBHOOK']);
-
-        curl_setopt_array($ch, [
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_POST => true,
-            CURLOPT_POSTFIELDS => $this->json(),
-            CURLOPT_HTTPHEADER => [
-                'Content-Type: application/json',
-            ],
+        $client = new Client([
+            'base_uri' => $_ENV['SERVER_WEBHOOK'],
+            'timeout'  => 2,
         ]);
 
-        curl_exec($ch);
-        curl_close($ch);
+        $client->post('', $this->toArray());
 
         log_to_file($this->json());
     }
