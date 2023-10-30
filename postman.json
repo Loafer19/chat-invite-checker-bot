@@ -1,0 +1,226 @@
+{
+	"info": {
+		"_postman_id": "92729438-7122-462a-86db-1560ebcbe254",
+		"name": "ChatInviteCheckerBot",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "6984660",
+		"_collection_link": "https://zero-yoyo.postman.co/workspace/IsitLab~b205ed95-c77a-428e-8f20-c7144832ec44/collection/6984660-92729438-7122-462a-86db-1560ebcbe254?action=share&source=collection_link&creator=6984660"
+	},
+	"item": [
+		{
+			"name": "app",
+			"item": [
+				{
+					"name": "InviteLink",
+					"item": [
+						{
+							"name": "create",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/public/app.php?click_id=234",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"public",
+										"app.php"
+									],
+									"query": [
+										{
+											"key": "click_id",
+											"value": "234"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "telegram join request ",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"update_id\": 894280298,\r\n    \"chat_join_request\": {\r\n        \"chat\": {\r\n            \"id\": -1002009485636,\r\n            \"title\": \"test\",\r\n            \"type\": \"supergroup\"\r\n        },\r\n        \"from\": {\r\n            \"id\": 133573852,\r\n            \"is_bot\": false,\r\n            \"first_name\": \"Саня\",\r\n            \"username\": \"karlosen88\",\r\n            \"language_code\": \"uk\"\r\n        },\r\n        \"user_chat_id\": 133573852,\r\n        \"date\": 1698164113,\r\n        \"invite_link\": {\r\n            \"invite_link\": \"https://t.me/+GSJE6NKz4vQ1ZTFi\",\r\n            \"creator\": {\r\n                \"id\": 6535861504,\r\n                \"is_bot\": true,\r\n                \"first_name\": \"Chat Invite Checker Bot\",\r\n                \"username\": \"ChatInviteCheckerBot\"\r\n            },\r\n            \"expire_date\": 1698768760,\r\n            \"pending_join_request_count\": 1,\r\n            \"creates_join_request\": true,\r\n            \"is_primary\": false,\r\n            \"is_revoked\": false\r\n        }\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/public/app.php?bot_token=6535861504:AAGq1vmUTrFElkfKXq9h1Yc0E1vza9QzZQ0",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"public",
+								"app.php"
+							],
+							"query": [
+								{
+									"key": "bot_token",
+									"value": "6535861504:AAGq1vmUTrFElkfKXq9h1Yc0E1vza9QzZQ0"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "telegram",
+			"item": [
+				{
+					"name": "webhook",
+					"item": [
+						{
+							"name": "/setWebhook",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"url\": \"{{host}}/public/app.php?bot_token=6535861504:AAGq1vmUTrFElkfKXq9h1Yc0E1vza9QzZQ0\",\r\n    \"allowed_updates\": [\"message\", \"my_chat_member\", \"chat_member\", \"chat_join_request\"]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://api.telegram.org/bot6535861504:AAGq1vmUTrFElkfKXq9h1Yc0E1vza9QzZQ0/setWebhook",
+									"protocol": "https",
+									"host": [
+										"api",
+										"telegram",
+										"org"
+									],
+									"path": [
+										"bot6535861504:AAGq1vmUTrFElkfKXq9h1Yc0E1vza9QzZQ0",
+										"setWebhook"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/getWebhookInfo",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.telegram.org/bot6535861504:AAGq1vmUTrFElkfKXq9h1Yc0E1vza9QzZQ0/getWebhookInfo",
+									"protocol": "https",
+									"host": [
+										"api",
+										"telegram",
+										"org"
+									],
+									"path": [
+										"bot6535861504:AAGq1vmUTrFElkfKXq9h1Yc0E1vza9QzZQ0",
+										"getWebhookInfo"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/deleteWebhook",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"url\": \"https://5bee-5-58-46-135.ngrok-free.app/public/app.php?bot_token=6535861504:AAGq1vmUTrFElkfKXq9h1Yc0E1vza9QzZQ0\",\r\n    \"allowed_updates\": [\"message\", \"my_chat_member\", \"chat_member\", \"chat_join_request\"]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://api.telegram.org/bot6535861504:AAGq1vmUTrFElkfKXq9h1Yc0E1vza9QzZQ0/deleteWebhook",
+									"protocol": "https",
+									"host": [
+										"api",
+										"telegram",
+										"org"
+									],
+									"path": [
+										"bot6535861504:AAGq1vmUTrFElkfKXq9h1Yc0E1vza9QzZQ0",
+										"deleteWebhook"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "/getUpdates",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"allowed_updates\": [\"chat_member\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.telegram.org/bot6535861504:AAGq1vmUTrFElkfKXq9h1Yc0E1vza9QzZQ0/getUpdates",
+							"protocol": "https",
+							"host": [
+								"api",
+								"telegram",
+								"org"
+							],
+							"path": [
+								"bot6535861504:AAGq1vmUTrFElkfKXq9h1Yc0E1vza9QzZQ0",
+								"getUpdates"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": "https://5075-5-58-46-135.ngrok-free.app",
+			"type": "string"
+		}
+	]
+}

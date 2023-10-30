@@ -12,15 +12,31 @@ $click_id = $_GET['click_id'] ?? null;
 if ($bot_token) {
     $response = $telegram->getWebhookUpdate();
 
-    if ($response->objectType() === 'chat_join_request') {
+    if (
+        isset($response[$response->objectType()]['new_chat_participant'])
+        || isset($response[$response->objectType()]['left_chat_participant'])
+        || isset($response[$response->objectType()]['new_chat_title'])
+        || isset($response[$response->objectType()]['new_chat_photo'])
+    ) {
+        $telegram->deleteMessage([
+            'chat_id' => $response[$response->objectType()]['chat']['id'],
+            'message_id' => $response[$response->objectType()]['message_id'],
+        ]);
+    }
 
-        if (isset($response['chat_join_request']['invite_link']['invite_link'])) {
-            $url = $response['chat_join_request']['invite_link']['invite_link'];
+    if ($response->objectType() === 'chat_join_request') {
+        $telegram->approveChatJoinRequest([
+            'chat_id' => $response[$response->objectType()]['chat']['id'],
+            'user_id' => $response[$response->objectType()]['from']['id'],
+        ]);
+
+        if (isset($response[$response->objectType()]['invite_link']['invite_link'])) {
+            $url = $response[$response->objectType()]['invite_link']['invite_link'];
 
             $lnvite_link = InviteLink::where('url', $url)->first();
 
             if ($lnvite_link) {
-                $lnvite_link->joinRequest();
+                $lnvite_link->joined();
 
                 $lnvite_link->sendUpdate();
             }
@@ -39,11 +55,15 @@ if ($click_id) {
         'creates_join_request' => true,
     ]);
 
+    $url = $response->getInviteLink();
+
     $lnvite_link = InviteLink::create([
         'click_id' => $click_id,
         'chat_id' => $chat_id,
-        'url' => $response->getInviteLink(),
+        'url' => $url,
     ]);
 
-    echo $lnvite_link->json();
+    header('Location: ' . $url);
 }
+
+exit();

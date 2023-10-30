@@ -31,7 +31,7 @@ class InviteLink extends Model
         'updated_at' => 'datetime:Y-m-d H:i:s',
     ];
 
-    public function joinRequest(): void
+    public function joined(): void
     {
         $this->update([
             'join_request_at' => new \DateTime(),
